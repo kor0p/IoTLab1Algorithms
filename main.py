@@ -6,22 +6,24 @@ class Ship:
         self.name = name
         self.numOfPassengers = int(numOfPassengers)
 
+    def __repr__(self):
+        return f'\n{self.tonnage}, {self.name}, {self.numOfPassengers}'
+
 with open("input.txt") as file:
     ships = [Ship(*line.split(',')) for line in file.readlines()]
-A = [s.tonnage for s in ships]
-i = 0
+A = ships[:]
+i = 1
 permutations = 0
 comparings = 0
 start_time = time()
-while i < len(A):
-    j = i
+for i in range(1, len(A)):
+    j = i 
     comparings += 1
-    while j > 0 and A[j-1] > A[j]:
+    while j > 0 and A[j-1].tonnage > A[j].tonnage:
         A[j], A[j-1] = A[j-1], A[j]
-        j = j - 1
+        j -= 1
         permutations += 1
         comparings += 1
-    i += 1
 print(f"Insertion sort\ntime: {time()-start_time},\npermutations: {permutations},\ncomparings: {comparings},\nres:{A}.\n\n")
 def mergeSort(alist, p=0, c=0):
     if len(alist)>1:
@@ -39,7 +41,7 @@ def mergeSort(alist, p=0, c=0):
         while i < len(lefthalf) and j < len(righthalf):
             c += 1
             p += 1
-            if lefthalf[i] >= righthalf[j]:
+            if lefthalf[i].numOfPassengers >= righthalf[j].numOfPassengers:
                 alist[k]=lefthalf[i]
                 i += 1
             else:
@@ -59,7 +61,7 @@ def mergeSort(alist, p=0, c=0):
             j += 1
             k += 1
     return p, c
-A = [s.numOfPassengers for s in ships]
+A = ships[:]
 start_time = time()
 permutations, comparings = mergeSort(A)
 print(f"Merge sort\ntime: {time()-start_time},\npermutations: {permutations},\ncomparings: {comparings},\nres:{A}.\n")
